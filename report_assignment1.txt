@@ -6,23 +6,23 @@ Mahdis Rezaei Niasar
 github username : mahdisrenia-coder
 
 Lewis 
+github username : lcballard
+
+Bianca
 github username : 
 
-Biana
+Aditya
 github username : 
 
-Adiyat 
-github username : 
-
-
+--
 Task A: 
 repository name : comp_astro_25
 link : https://github.com/bponnekanti/comp_astro_25.git
-
+--
 Task B: 
 commit 606c80c6a9aaeded400ba565d642e6d406cfacd9 
 Date:   Sun Oct 26 10:38:51 2025 +0000
-
+--
 Task C: 
 
 taskC_mahdisrenia-coder.txt
@@ -30,4 +30,8 @@ username : mahdisrenia-coder
 commit 8c173a6b1eba6e3f1913be0f9e6dfdc52b0531cb 
 Date:   Sun Oct 26 11:43:49 2025 +0000
 
+taskC_lcballard.txt
+username: lcballard
+commit 6161122a86f65114ae7a1f31e1c5abd2b36ce948
+Date:   Sun Oct 26 13:30:31 2025 +0000
 -----------------
