@@ -14,15 +14,18 @@ github username :
 Aditya
 github username : 
 
---
+-----------------
+
 Task A: 
 repository name : comp_astro_25
 link : https://github.com/bponnekanti/comp_astro_25.git
---
+-----------------
+
 Task B: 
 commit 606c80c6a9aaeded400ba565d642e6d406cfacd9 
 Date:   Sun Oct 26 10:38:51 2025 +0000
---
+----------------
+
 Task C: 
 
 taskC_mahdisrenia-coder.txt
@@ -34,7 +37,7 @@ taskC_lcballard.txt
 username: lcballard
 commit 6161122a86f65114ae7a1f31e1c5abd2b36ce948
 Date:   Sun Oct 26 13:30:31 2025 +0000
------------------
+----------------
 
 Task D: 
 
@@ -44,3 +47,16 @@ Author: mahdisrenia-coder
 Date:   Sun Nov 2 17:39:09 2025 +0000
 
 METHOD: add file, commit, push, and use "merge" command. 
+---------------
+
+Task E :
+
+commit 56e4c9a136a78177b92298d108e6d75f0c219bdc
+Author: mahdisrenia-coder 
+Date:   Sun Nov 2 18:02:09 2025 +0000
+
+briefly explenation:
+added list of packages from conda environment which is included packages like numpy, python, batman-packages
+--------------
+Ã¸
+â
