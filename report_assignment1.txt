@@ -35,3 +35,12 @@ username: lcballard
 commit 6161122a86f65114ae7a1f31e1c5abd2b36ce948
 Date:   Sun Oct 26 13:30:31 2025 +0000
 -----------------
+
+Task D: 
+
+commit 6474c99a190d9715d60e580c10683b8acae959e8 (HEAD -> main, origin/main, origin/HEAD)
+Merge: cbadd34 a044d7d
+Author: mahdisrenia-coder 
+Date:   Sun Nov 2 17:39:09 2025 +0000
+
+METHOD: add file, commit, push, and use "merge" command. 
