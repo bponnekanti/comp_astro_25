@@ -3,11 +3,24 @@ import numpy as np
 import batman 
 import csv 
 import matplotlib.pyplot as plt
+#%%
+##mahdis' notes: to double check what is my csv data, i print the first 33 lines. 
+## command with open () as f: this opens our file and close it. 
+## f.readline().strip() reads each line  as string and removes extra spaces (by strip).
 
+with open("/ca25/comp_astro_25/src/daneel/detection/batman_tutorial_notebook/HATS-12 b_mahdis.csv") as f:
+    for i in range(33):
+        print(f.readline().strip())
 # %%
-limb_dark_data = np.genfromtxt("HATS-12 b_mahdis.csv", delimiter=',', skip_header=17)
-u1 = np.mean(limb_dark_data[:, 5])
-u2 = np.mean(limb_dark_data[:, 7])
+## mahdis' notes :i cleaned my table manually, is it a problem ?
+## np.genfromtxt reads the data from csv file and stores it in an array. 
+## delimiter = '' means that the data is separated by commas. 
+## skip_header = 0 means that we do not skip any rows at the top of the file. 
+## u1 and u2 are the limb darkening coefficients(c1 and c2 in table ), which are in columns 7 and 9 of the csv file.
+
+limb_dark_data = np.genfromtxt("/ca25/comp_astro_25/src/daneel/detection/batman_tutorial_notebook/HATS-12 b_mahdis.csv", delimiter='', skip_header=1)
+u1 = np.mean(limb_dark_data[:, 7])
+u2 = np.mean(limb_dark_data[:, 9])
 print(u1, u2)
 # %%
 params = batman.TransitParams()
@@ -21,17 +34,19 @@ params.w    = 0.                  #longitude of periastron (in degrees)
 params.u    = [u1, u2]            #limb darkening coefficients [u1, u2]
 params.limb_dark = "quadratic"    #limb darkening model
 # %%
+## mahdis' notes: create an array of time values from -0.075 to 0.075 with 1000 points around the transit center.
 t = np.linspace(-0.075, 0.075, 1000)
-
 #%%
+##mahdis' notes: initialize the transit model with the parameters and time array, then compute the light curve.
 m = batman.TransitModel(params, t)	        #initializes model
 flux = m.light_curve(params)
-
 # %%
-plt.plot(t, flux)
+plt.plot(t, flux ,label = 'HATS-12 b Transit Light Curve')
 plt.xlabel("Time from central transit (days)")
 plt.ylabel("Relative flux")
-# plt.ylim((0.989, 1.001))
-plt.savefig("lc.png") 
+##plt.ylim((0.989, 1.001))
+## this command zoom in the plot vertically to see the transit better.it did not work well here because the transit depth is large.
+plt.legend()
+plt.savefig("HATS-12 b_assignment1_taskF.png") 
 plt.show()
-# %%
+##mahdis' note : save the plot as lc.png and display it.

@@ -1,20 +1,4 @@
-# %ECSV 1.0
-# ---
-# datatype:
-# - {name: Teff, datatype: float64}
-# - {name: logg, datatype: float64}
-# - {name: FeH, datatype: float64}
-# - {name: profile, datatype: string}
-# - {name: filter, datatype: string}
-# - {name: wave_min, datatype: float16}
-# - {name: wave_eff, datatype: float16}
-# - {name: wave_max, datatype: float16}
-# - {name: c1, datatype: float64}
-# - {name: e1, datatype: float64}
-# - {name: c2, datatype: float64}
-# - {name: e2, datatype: float64}
-# schema: astropy-2.0
-Teff logg FeH profile filter wave_min wave_eff wave_max c1 e1 c2 e2
+eff logg FeH profile filter wave_min wave_eff wave_max c1 e1 c2 e2
 6250.0 4.5 0.0 quadratic Kepler/Kepler.K 0.422 0.4294 0.437 0.569 0.005 0.199 0.007
 6250.0 4.5 0.0 quadratic Kepler/Kepler.K 0.438 0.4456 0.453 0.561 0.008 0.213 0.01
 6250.0 4.5 0.0 quadratic Kepler/Kepler.K 0.454 0.4614 0.469 0.52 0.01 0.237 0.013
