@@ -58,5 +58,15 @@ Date:   Sun Nov 2 18:02:09 2025 +0000
 briefly explenation:
 added list of packages from conda environment which is included packages like numpy, python, batman-packages
 --------------
-ø
-�
+
+Task F :
+
+commit 215a01276da016c8ca2d14c50daabbc2b5558436
+Author: mahdisrenia-coder 
+Date:   Mon Nov 3 13:25:54 2025 +0000
+
+Brief description of light curve and Python script contents: 
+In the Python script, using the batman package, the planetary parameters of HATS-12 b and its limb darkening coefficients (from a CSV file) 
+are used to model the transit and generate the corresponding light curve. 
+The PNG file shows the simulated transit light curve of HATS-12 b, showing the change in the star’s relative brightness(relative flux) 
+during the planet’s transit (time). 
