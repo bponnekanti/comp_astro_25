@@ -51,7 +51,14 @@ daneel -i parameters.yaml -a
 
 # Run both detection and atmospheric analysis
 daneel -i parameters.yaml -d -a
+
 ```
+```bash
+# Plot the transit light curve
+daneel -i parameters.yaml -t
+
+```
+This command generates the transit light curve from the parameters in YAML file.
 
 ## Input File Format
 
