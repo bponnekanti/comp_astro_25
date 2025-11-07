@@ -47,6 +47,14 @@ Author: mahdisrenia-coder
 Date:   Sun Nov 2 17:39:09 2025 +0000
 
 METHOD: add file, commit, push, and use "merge" command. 
+
+i merged it again : 
+commit dd7d8e1006e4ac6186bc7e5337e560b5c348c2f9 
+Merge: d25a4b1 fb7390c
+Author: mahdisrenia-coder <mahdis.rezaeiniasar@gmail.com>
+Date:   Fri Nov 7 13:10:25 2025 +0000
+
+    Merge branch 'main' of https://github.com/bponnekanti/comp_astro_25
 ---------------
 
 Task E :
