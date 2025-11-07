@@ -33,7 +33,7 @@ def transit(param_dict):
     params.ecc  = data["ecc"]               # Eccentricity
     params.w    = data["w"]                 # Longitude of periastron (degrees)
     params.limb_dark = data["limb_dark"]    # limb-darkening model
-    params.u    = data["u"]                 # Limb-darkening coefficients
+    params.u    = [data["u1"], data["u2"]]                 # Limb-darkening coefficients
     params.limb_dark = "quadratic"          # Limb-darkening model
 
     # Time array around transit
@@ -51,3 +51,4 @@ def transit(param_dict):
     plt.title("Transit Simulation")
     plt.savefig("transit_plot.png")
     plt.show()
+# %%
