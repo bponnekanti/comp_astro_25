@@ -70,3 +70,34 @@ In the Python script, using the batman package, the planetary parameters of HATS
 are used to model the transit and generate the corresponding light curve. 
 The PNG file shows the simulated transit light curve of HATS-12 b, showing the change in the star’s relative brightness(relative flux) 
 during the planet’s transit (time). 
+---------------
+
+Task G :
+adding transit file
+commit 7b6365c5a88e81af4bdb31f607fce665089ee413
+Author: mahdisrenia-coder <mahdis.rezaeiniasar@gmail.com>
+Date:   Thu Nov 6 
+
+updating read me :
+commit 72f695cf7f13a9b34dba3ccb829a478feda4105d
+Author: mahdisrenia-coder <mahdis.rezaeiniasar@gmail.com>
+Date:   Thu Nov 6 20:01:02 2025 +0000
+
+    update READ me with transit command and explenation of command
+
+make yaml file :
+commit 1e4deb846160f71ad82070fe5fca7310840c9053
+Author: mahdisrenia-coder <mahdis.rezaeiniasar@gmail.com>
+Date:   Fri Nov 7 08:38:46 2025 +0000
+
+    create yml file to test task G
+
+-----------------
+
+Task H :
+
+commit c0cca1cc0fc1b265bf7361adc321a6a705a38e15
+Author: mahdisrenia-coder <mahdis.rezaeiniasar@gmail.com>
+Date:   Fri Nov 7 10:09:54 2025 +0000
+
+    add run_daneel forlder with transit parameter file in yaml format and the generated light curve, SO CONFUSED how to show i ran out of my repo and it DID work,take screan?
