@@ -68,8 +68,6 @@ def main():
         pass
     elif args.atmosphere:
         pass
-    if args.transit:
-        transit.transit(input_pars)
 
     finish = datetime.datetime.now()
     print(f"Daneel finishes at {finish}")
