@@ -1,0 +1,21 @@
+hi
+for assignment 2 :
+
+mahdis :
+i did task one with another yaml data(HATS-12b)
+this is the commit code of creation if png :
+ 
+commit 4a13649bc1c932ef168f1688714c1569026a1589
+Author: mahdisrenia-coder <mahdis.rezaeiniasar@gmail.com>
+Date:   Mon Nov 17 17:35:27 2025 +0000 
+
+
+and rename it to assignment2_taskA :
+ 
+commit 82cbb57963ae1b5336df0345b10cbb8adec08e46 (HEAD -> main, origin/main, origin/HEAD)
+Author: mahdisrenia-coder <mahdis.rezaeiniasar@gmail.com>
+Date:   Mon Nov 17 17:36:04 2025 +0000
+
+
+please add what you have done here to not lost your commit and for report we can take them 
+thanks budues :))))
