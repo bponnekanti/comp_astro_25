@@ -2,6 +2,9 @@ hi
 for assignment 2 :
 
 mahdis :
+
+TASK A 
+
 i did task one with another yaml data(HATS-12b)
 this is the commit code of creation if png :
  
@@ -16,6 +19,20 @@ commit 82cbb57963ae1b5336df0345b10cbb8adec08e46 (HEAD -> main, origin/main, orig
 Author: mahdisrenia-coder <mahdis.rezaeiniasar@gmail.com>
 Date:   Mon Nov 17 17:36:04 2025 +0000
 
+TASK B:
+
+commit 89528e5fb3b2ab7da66a39d03c844d2ee0df4428
+Author: mahdisrenia-coder <mahdis.rezaeiniasar@gmail.com>
+Date:   Mon Nov 17 19:49:07 2025 +0000
+
+
+TASK C:
+
+commit 2270bf0bcac5e59416e72e72a47c441a593cfe1b (HEAD -> main)
+Author: mahdisrenia-coder <mahdis.rezaeiniasar@gmail.com>
+Date:   Mon Nov 17 20:07:32 2025 +0000
+
+    doing task c, same as task b, i think the way i did is not the best. i got the respond but not sure is it exacttly what we have to do.
 
 please add what you have done here to not lost your commit and for report we can take them 
 thanks budues :))))
