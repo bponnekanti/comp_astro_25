@@ -35,7 +35,7 @@ def transit(param_dict):
     params.limb_dark = data["limb_dark"]    # limb-darkening model
     params.u    = [data["u1"], data["u2"]]                 # Limb-darkening coefficients
     params.limb_dark = "quadratic"          # Limb-darkening model
-
+    
     # Time array around transit
     t = np.linspace(-0.075, 0.075, 1000)    # Time from central transit (days)
 
@@ -49,6 +49,5 @@ def transit(param_dict):
     plt.ylabel("Relative flux")
     plt.legend()
     plt.title("Transit Simulation")
-    plt.savefig("transit_plot.png")
+    plt.savefig(f"transit_plot.png")
     plt.show()
-# %%
