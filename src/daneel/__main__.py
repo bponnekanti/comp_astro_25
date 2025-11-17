@@ -27,15 +27,6 @@ def main():
     )
 
     parser.add_argument(
-        "-t",
-        "--transit",
-        dest="transit",
-        required=False,
-        help="Plots transit lightcurve from yaml file",
-        action="store_true",
-    )
-
-    parser.add_argument(
         "-d",
         "--detect",
         dest="detect",
@@ -43,7 +34,6 @@ def main():
         help="Initialise detection algorithms for Exoplanets",
         action="store_true",
     )
-    
 
     parser.add_argument(
         "-a",
@@ -78,8 +68,6 @@ def main():
         pass
     elif args.atmosphere:
         pass
-    if args.transit:
-        transit.transit(input_pars)
 
     finish = datetime.datetime.now()
     print(f"Daneel finishes at {finish}")

@@ -1,4 +1,4 @@
-transit_params:
+transit:
   t0: 0.0
   per: 1.580404
   rp: 0.187

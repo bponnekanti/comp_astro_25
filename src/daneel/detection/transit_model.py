@@ -21,6 +21,7 @@ class TransitModel:
             Dictionary containing transit parameters loaded from YAML file
         """
         self.params = batman.TransitParams()
+        self.params.name = params_dict.get('name')
         self.params.t0 = params_dict.get('t0', 0.0)
         self.params.per = params_dict.get('per')
         self.params.rp = params_dict.get('rp')
@@ -65,6 +66,7 @@ class TransitModel:
         plt.plot(self.t, self.flux)
         plt.xlabel("Time from central transit (days)")
         plt.ylabel("Relative flux")
+        plt.title(self.params.name)
         plt.savefig(output_file)
         plt.show()
         print(f"Light curve saved to {output_file}")
