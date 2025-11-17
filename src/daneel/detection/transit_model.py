@@ -50,7 +50,7 @@ class TransitModel:
         self.flux = self.model.light_curve(self.params)
         return self.flux
     
-    def plot_light_curve(self, output_file='lc.png'):
+    def plot_light_curve(self, output_file= None):
         """
         Plot and save the transit light curve.
         
@@ -61,6 +61,8 @@ class TransitModel:
         """
         if not hasattr(self, 'flux'):
             self.compute_light_curve()
+        if output_file is None:
+            output_file = f"{self.params.name}_lc.png"
         
         plt.figure(figsize=(10, 6))
         plt.plot(self.t, self.flux)
@@ -71,7 +73,8 @@ class TransitModel:
         plt.show()
         print(f"Light curve saved to {output_file}")
     
-    def run(self, output_file='lc.png'):
+
+    def run(self, output_file = None):
         """
         Run the complete transit model workflow: compute and plot light curve.
         
@@ -80,5 +83,7 @@ class TransitModel:
         output_file : str, optional
             Output filename for the plot (default: 'lc.png')
         """
+        if not output_file:
+            output_file = f"{self.params.name}_lc.png"
         self.compute_light_curve()
         self.plot_light_curve(output_file)
