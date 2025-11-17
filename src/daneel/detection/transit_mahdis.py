@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 ## command with open () as f: this opens our file and close it. 
 ## f.readline().strip() reads each line  as string and removes extra spaces (by strip).
 
-with open("/ca25/comp_astro_25/src/daneel/detection/batman_tutorial_notebook/HATS-12 b_mahdis.csv") as f:
+with open("/ca25/comp_astro_25/src/daneel/detection/HATS-12 b_mahdis.csv") as f:
     for i in range(33):
         print(f.readline().strip())
 # %%
@@ -25,7 +25,7 @@ with open("/ca25/comp_astro_25/src/daneel/detection/batman_tutorial_notebook/HAT
 ## skip_header = 0 means that we do not skip any rows at the top of the file. 
 ## u1 and u2 are the limb darkening coefficients(c1 and c2 in table ), which are in columns 7 and 9 of the csv file.
 
-limb_dark_data = np.genfromtxt("/ca25/comp_astro_25/src/daneel/detection/batman_tutorial_notebook/HATS-12 b_mahdis.csv", delimiter='', skip_header=1)
+limb_dark_data = np.genfromtxt("/ca25/comp_astro_25/src/daneel/detection/HATS-12 b_mahdis.csv", delimiter='', skip_header=1)
 u1 = np.mean(limb_dark_data[:, 8])
 u2 = np.mean(limb_dark_data[:, 10])
 print(u1, u2)
