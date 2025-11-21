@@ -1,8 +1,8 @@
 transit:
-  name: WASP-121
+  name: WASP-121LL
   t0: 0.0
   per: 1.580404
-  rp: 0.187
+  rp: 0.368
   a: 5.47
   inc: 87.5
   ecc: 0.0

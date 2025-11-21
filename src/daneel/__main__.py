@@ -8,6 +8,7 @@ import argparse
 from daneel.parameters import Parameters
 from daneel.detection import *
 from daneel import transit
+from daneel.parameters import plot_transits
 
 ##mahdis' note: 
 # datetime lets us track when the program starts and ends.
@@ -16,7 +17,6 @@ from daneel import transit
 
 def main():
     parser = argparse.ArgumentParser()
-    ## mahdis' note: parser means
     parser.add_argument(
         "-i",
         "--input",
@@ -59,11 +59,22 @@ def main():
     start = datetime.datetime.now()
     print(f"Daneel starts at {start}")
 
-    input_pars = Parameters(args.input_file).params
+    # example code for multiple input files:
+
+    input_pars_in = args.input_file.split(",") #seperated by comma (no space)
+    input_pars = []
+    for ymlfilepath in input_pars_in:
+        input_pars.append(Parameters(ymlfilepath).params['transit'])
+    
+    
 
     if args.transit:
-        transit = TransitModel(input_pars['transit'])
-        transit.plot_light_curve()
+        transit_list = []
+        print("builidng transit list")
+        for transit in input_pars:
+            transit_list.append(TransitModel(transit))  # was input_pars['transit']
+        print("calling plots")
+        plot_transits(transit_list)
     elif args.detect:
         pass
     elif args.atmosphere:
