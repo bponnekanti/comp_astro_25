@@ -70,10 +70,8 @@ def main():
 
     if args.transit:
         transit_list = []
-        print("builidng transit list")
         for transit in input_pars:
             transit_list.append(TransitModel(transit))  # was input_pars['transit']
-        print("calling plots")
         plot_transits(transit_list)
     elif args.detect:
         pass
