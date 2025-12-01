@@ -28,9 +28,10 @@ class Parameters:
         return self.params[param]
 
 # plotting multiple planets in same plot
-def plot_transits(transits_list,output_file="combined_lc.png"):
+def plot_transits(transits_list,output_file=None):
     """
     transists_list is list of TransitModel objects from trasit_model.py
+    output_file : optional: if None, will use planets name(s) to create output filename
     """
     fig = plt.figure()
     ax = fig.gca()
@@ -41,8 +42,17 @@ def plot_transits(transits_list,output_file="combined_lc.png"):
         if not hasattr(transit, 'flux'):
             transit.compute_light_curve()
         plt.plot(transit.t, transit.flux,label=f"{transit.params.name}")
-    plt.savefig(output_file)
+ 
     ax.legend()
+
+    if output_file is None:
+        if len(transits_list) == 1:
+            output_file = f"{transits_list[0].params.name}_lc.png"
+        else:
+            names = "_".join([transit.params.name for transit in transits_list])
+            output_file = f"{names}_lc.png"
+            
+    plt.savefig(output_file)
     plt.show()
     print(f"Light curve saved to {output_file}")
     
