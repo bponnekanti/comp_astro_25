@@ -1,0 +1,23 @@
+Model 1 - n_estimators=100, max_depth=5
+Confusion Matrix:
+[[74 21]
+ [ 6 88]]
+Precision: 0.8073
+
+Model 2 - n_estimators=100, max_depth=10
+Confusion Matrix:
+[[73 22]
+ [ 4 90]]
+Precision: 0.8036
+
+Model 3 - n_estimators=200, max_depth=5
+Confusion Matrix:
+[[76 19]
+ [ 6 88]]
+Precision: 0.8224
+
+Model 4 - n_estimators=200, max_depth=10
+Confusion Matrix:
+[[70 25]
+ [ 2 92]]
+Precision: 0.7863
