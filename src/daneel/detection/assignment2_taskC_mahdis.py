@@ -5,7 +5,7 @@ from transit_model import TransitModel
 import matplotlib.pyplot as plt
 #%%
 # Load parameters from YAML configuration file
-with open('/ca25/comp_astro_25/HATS-12b.yaml', 'r') as file :
+with open('../../../HATS-12b.yaml', 'r') as file :
     data = yaml.safe_load(file)["transit"]
 #%%
 ##planet 1 parameters:
