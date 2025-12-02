@@ -34,5 +34,12 @@ Date:   Mon Nov 17 20:07:32 2025 +0000
 
     doing task c, same as task b, i think the way i did is not the best. i got the respond but not sure is it exacttly what we have to do.
 
+TASK E:
+commit d41e8bbcb26225acf9b7478c0268d1940c460e74 (HEAD -> main, origin/main, origin/HEAD)
+Author: adityaswamy-Astro <aditya.swamy@studenti.unipd.it>
+Date:   Tue Dec 2 19:37:47 2025 +0000
+
+    Adding my assignment task E files for assignment 2
+
 please add what you have done here to not lost your commit and for report we can take them 
 thanks budues :))))
