@@ -40,6 +40,10 @@ Author: adityaswamy-Astro <aditya.swamy@studenti.unipd.it>
 Date:   Tue Dec 2 19:37:47 2025 +0000
 
     Adding my assignment task E files for assignment 2
+The method used for task E is decision tree. We created a new function to train the decision tree classifier (chanegd from random forest in the previous one
+and got the precision as mentioned in report_decisiontree_assignment2_taskE.txt)
+
+
 
 please add what you have done here to not lost your commit and for report we can take them 
 thanks budues :))))
