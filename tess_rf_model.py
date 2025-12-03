@@ -27,7 +27,7 @@ class TESSRandomForest:
         self.scaler = None
         self.best_thresh = None
 
-    # --- Step 3: Balanced dataset ---
+    # Balanced dataset
     def create_balanced_dataset(self, X, y, samples_per_class=None):
         if samples_per_class is None:
             samples_per_class = self.samples_per_class
@@ -69,7 +69,7 @@ class TESSRandomForest:
         np.random.shuffle(idx)
         return X_bal[idx], y_bal[idx]
 
-    # --- Step 4: Load data ---
+    # Load data 
     def load_data(self):
         df = pd.read_csv(self.csv_path)
         flux_cols = [f'flux_{i:04d}' for i in range(self.n_bins)]
@@ -96,7 +96,7 @@ class TESSRandomForest:
 
         return X_train, X_test, y_train, y_test, metadata_test, X_test.copy(), X_err_test, self.scaler
 
-    # --- Step 5: Build Random Forest ---
+    #Build Random Forest
     def build_random_forest(self, n_estimators=500, max_depth=None, min_samples_leaf=1,
                             max_features='sqrt', bootstrap=True, class_weight=None,
                             n_jobs=-1, oob_score=True):
@@ -108,14 +108,14 @@ class TESSRandomForest:
         )
         return rf
 
-    # --- Step 6: Train model ---
+    # Train model
     def train_model(self, model, X_train, y_train):
         model.fit(X_train, y_train)
         if hasattr(model, 'oob_score_') and model.oob_score_ is not None:
             print(f"OOB Score: {model.oob_score_:.4f}")
         return model
 
-    # --- Step 7: Evaluate ---
+    # Evaluate
     def evaluate_with_optimal_threshold(self, model, X_test, y_test):
         proba = model.predict_proba(X_test)[:, 1]
         fpr, tpr, thresholds = roc_curve(y_test, proba)
@@ -130,7 +130,7 @@ class TESSRandomForest:
         self.best_thresh = best_thresh
         return y_pred_best, proba, best_thresh, (fpr, tpr, thresholds)
 
-    # --- Step 8: Plotting methods ---
+    # Plotting methods 
     def plot_confusion_matrix_image(self, y_true, y_pred, threshold, save_path='confusion_matrix_rf.png'):
         cm = confusion_matrix(y_true, y_pred)
         fig, ax = plt.subplots(figsize=(6,5))
@@ -153,12 +153,13 @@ class TESSRandomForest:
         fpr, tpr, _ = roc_curve(y_true, proba)
         auc = roc_auc_score(y_true, proba)
         plt.figure(figsize=(6,5))
-        plt.plot(fpr, tpr, linewidth=2)
-        plt.plot([0,1],[0,1], linestyle='--')
+        plt.plot(fpr, tpr, linewidth=2, label=f'ROC Curve (AUC={auc:.4f})')
+        plt.plot([0,1],[0,1], linestyle='--', label='Random Classifier')
         plt.xlabel('False Positive Rate')
         plt.ylabel('True Positive Rate')
         plt.title(f'ROC Curve (AUC={auc:.4f})')
         plt.grid(alpha=0.3)
+        plt.legend()
         plt.savefig(save_path, dpi=300)
         plt.close()
 
@@ -186,9 +187,46 @@ class TESSRandomForest:
         plt.tight_layout()
         plt.savefig(save_path, dpi=300)
         plt.close()
+    
+    def plot_lightcurve_sample(self, idx, X_test_standardized, X_err_test, metadata_test,
+                           scaler=None, proba=None, y_true=None, y_pred=None,
+                           save_prefix='sample_lightcurve_RF'):
+        # Make a single-figure plot for one sample (no subplots)
+        x_std = X_test_standardized[idx].reshape(1, -1)
+        if scaler is not None:
+            x_orig = scaler.inverse_transform(x_std).flatten()
+        else:
+            x_orig = x_std.flatten()
+        yerr = X_err_test[idx]
 
-    # --- Step 11: Run the full pipeline ---
-    def run(self, n_estimators=500, max_depth=None, min_samples_leaf=1,
+        fig, ax = plt.subplots(figsize=(10, 4))
+        ax.errorbar(np.arange(len(x_orig)), x_orig, yerr=yerr, fmt='o', markersize=2, alpha=0.6)
+        ax.axhline(np.median(x_orig), linestyle='--', linewidth=1)
+        ax.set_xlabel('Time Bin')
+        ax.set_ylabel('Flux')
+
+        toi = metadata_test.loc[idx, 'toi_name']
+        tic = metadata_test.loc[idx, 'tic']
+        disp = metadata_test.loc[idx, 'disp']
+        sector = metadata_test.loc[idx, 'sector']
+
+        tstr = f'TOI {toi} (TIC {tic}, {disp}) - Sector {sector}'
+        if proba is not None and y_true is not None and y_pred is not None:
+            pred_str = 'Transit' if y_pred[idx] == 1 else 'Non-Transit'
+            true_str = 'Transit' if y_true[idx] == 1 else 'Non-Transit'
+            tstr += f'\nTrue: {true_str} | Pred: {pred_str} (p={proba[idx]:.3f})'
+
+        ax.set_title(tstr)
+        ax.grid(alpha=0.3)
+        plt.tight_layout()
+        path = f"{save_prefix}_{idx}.png"
+        plt.savefig(path, dpi=300)
+        print(f"Saved: {path}")
+        plt.close(fig)
+
+
+    #Run the full pipeline
+    def run_random_forest(self, n_estimators=500, max_depth=None, min_samples_leaf=1,
             max_features='sqrt', bootstrap=True, class_weight=None,
             n_jobs=-1, oob_score=True, preview_samples=4):
         self.X_train, self.X_test, self.y_train, self.y_test, self.metadata_test, \
@@ -212,12 +250,34 @@ class TESSRandomForest:
         self.plot_probability_histograms(self.y_test, self.proba_test)
 
         # Optional preview of light curves can be added here
+        num_samples = min(preview_samples, len(self.X_test_std_copy))
+        idxs = np.random.choice(len(self.X_test_std_copy), num_samples, replace=False)
+        for i in idxs:
+            self.plot_lightcurve_sample(
+                i, self.X_test_std_copy, self.X_err_test, self.metadata_test,
+                scaler=self.scaler, proba=self.proba_test, y_true=self.y_test,
+                y_pred=self.y_pred_opt, save_prefix='sample_lightcurve_RF'
+            )
+            print("\nRandom Forest run completed!")
+            return self.rf, self.y_pred_opt, self.proba_test, self.best_thresh
 
-        # Save artifacts
-        joblib.dump(self.rf, 'tess_rf_model.joblib')
-        np.save('rf_optimal_threshold.npy', self.best_thresh)
-        print("Artifacts saved: tess_rf_model.joblib, rf_optimal_threshold.npy, and PNG figures.")
-        return self.y_pred_opt, self.proba_test, self.best_thresh, None
+    # Save results
+    def save_results_and_samples(self, model, y_pred, proba, best_thresh, save_prefix='rf'):
+        # Save a few single-sample light curves
+        num_samples = min(4, len(self.X_test_std_copy))
+        idxs = np.random.choice(len(self.X_test_std_copy), num_samples, replace=False)
+        for i in idxs:
+            self.plot_lightcurve_sample(
+                i, self.X_test_std_copy, self.X_err_test, self.metadata_test,
+                scaler=self.scaler, proba=proba, y_true=self.y_test, y_pred=y_pred,
+                save_prefix=f'sample_lightcurve_{save_prefix}'
+            )
+
+        # Persist the trained model and optimal threshold
+        joblib.dump(model, f'tess_{save_prefix}_model.joblib')
+        np.save(f'{save_prefix}_optimal_threshold.npy', best_thresh)
+        print(f"Saved: tess_{save_prefix}_model.joblib, {save_prefix}_optimal_threshold.npy")
+
 
 
 
