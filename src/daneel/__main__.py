@@ -32,7 +32,7 @@ def main():
         dest="detect",
         required=False,
         help="Initialise detection algorithms for Exoplanets",
-        action="store_true",
+        #action="store_true",
     )
 
     parser.add_argument(
@@ -62,19 +62,34 @@ def main():
     # example code for multiple input files:
 
     input_pars_in = args.input_file.split(",") #seperated by comma (no space)
-    input_pars = []
+    input_pars_transit = []
+    input_pars_detection = []
+
     for ymlfilepath in input_pars_in:
-        input_pars.append(Parameters(ymlfilepath).params['transit'])
-    
-    
+        params = Parameters(ymlfilepath).params
+        if 'transit' in params:
+            input_pars_transit.append(params['transit'])
+        if 'detection' in params:
+            input_pars_detection.append(params['detection'])
+
 
     if args.transit:
         transit_list = []
-        for transit in input_pars:
+        for transit in input_pars_transit:
             transit_list.append(TransitModel(transit))  # was input_pars['transit']
         plot_transits(transit_list)
+
     elif args.detect:
-        pass
+        alg = args.detect.lower()
+        for detection_params in input_pars_detection:
+            detection_params = Parameters(ymlfilepath).params.get('detection', {})
+            if alg.lower() == 'rf':
+                from daneel.detection.tess_rf_model import RandomForestDetector
+                detector = RandomForestDetector(detection_params)
+                detector.detect()
+            else:
+                print(f"Detection algorithm '{alg}' is not supported.")
+
     elif args.atmosphere:
         pass
 
