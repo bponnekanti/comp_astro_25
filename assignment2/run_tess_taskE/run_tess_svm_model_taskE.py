@@ -2,14 +2,14 @@
 # Task E: SVM Model Evaluation and Reporting
 #%%
 import sys
-sys.path.append('..')
+sys.path.append('.')
 
 import numpy as np
 from Tess_models import TESSModels
 from sklearn.metrics import precision_score, confusion_matrix, classification_report, roc_auc_score
 
 # Initialize the SVM pipeline
-svm_pipeline = TESSModels(csv_path='../tess_data.csv', samples_per_class=350, use_scaler=True)
+svm_pipeline = TESSModels(csv_path='./tess_data.csv', samples_per_class=350, use_scaler=True)
 
 # Load data to get summary info
 X_train, X_test, y_train, y_test, metadata_test, X_test_std_copy, X_err_test, scaler = svm_pipeline.load_data()

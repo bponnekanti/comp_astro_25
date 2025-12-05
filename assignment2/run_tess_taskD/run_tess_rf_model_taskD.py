@@ -1,7 +1,7 @@
 ## Task D: Experimenting with Random Forest Hyperparameters
 #%%
 import sys
-sys.path.append('..')
+sys.path.append('.')
 
 import numpy as np
 from Tess_models import TESSModels
@@ -17,7 +17,7 @@ hyperparams_list = [
 ]
 
 # Initialize the class
-rf_pipeline = TESSModels(csv_path='../tess_data.csv', samples_per_class=350)
+rf_pipeline = TESSModels(csv_path='./tess_data.csv', samples_per_class=350)
 
 X_train, X_test, y_train, y_test, metadata_test, X_test_std_copy, X_err_test, scaler = rf_pipeline.load_data()
 
