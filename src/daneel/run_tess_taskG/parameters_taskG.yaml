@@ -1,6 +1,6 @@
 detection:
   algorithm: rf
-  dataset_path: ../../tess_data.csv
+  dataset_path: tess_data.csv
   n_bins: 1000
   use_scaler: true
   samples_per_class: 350
