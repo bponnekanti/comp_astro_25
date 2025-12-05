@@ -379,7 +379,7 @@ class TESSModels:
                 y_pred=self.y_pred_opt, save_prefix='rf'
             )
             print("\nRandom Forest run completed!")
-        return self.rf, self.y_pred_opt, self.proba_test, self.best_thresh, _ 
+        return self.rf, self.y_pred_opt, self.proba_test, self.best_thresh, _
 
     ## run function LINEAR MODEL
     def run_linear_model(self, n_bins=1000, use_scaler=False, samples_per_class=350,
