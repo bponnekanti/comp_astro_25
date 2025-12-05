@@ -1,7 +1,7 @@
 ## Task D: Experimenting with Random Forest Hyperparameters
 #%%
 import sys
-sys.path.append('.')
+sys.path.append('..')
 
 import numpy as np
 from Tess_models import TESSModels
@@ -17,7 +17,7 @@ hyperparams_list = [
 ]
 
 # Initialize the class
-rf_pipeline = TESSModels(csv_path='./tess_data.csv', samples_per_class=350)
+rf_pipeline = TESSModels(csv_path='../tess_data.csv', samples_per_class=350)
 
 X_train, X_test, y_train, y_test, metadata_test, X_test_std_copy, X_err_test, scaler = rf_pipeline.load_data()
 
@@ -38,9 +38,10 @@ report_lines.append("-" * 40 + "\n")
 for i, params in enumerate(hyperparams_list, 1):
     print(f"\nRunning model {i}: n_estimators={params['n_estimators']}, max_depth={params['max_depth']}")
 
-    rf_model,y_pred, proba, threshold = rf_pipeline.run_random_forest(
+    rf_model, y_pred, proba, threshold, _ = rf_pipeline.run_random_forest(
         n_estimators=params['n_estimators'],
         max_depth=params['max_depth'],
+        preview_samples=0
     )
     
     # Compute confusion matrix and precision
