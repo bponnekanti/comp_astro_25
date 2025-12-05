@@ -53,6 +53,7 @@ def main():
         action="store_true",
     )
 
+
     args = parser.parse_args()
 
     """Launch Daneel"""
@@ -87,6 +88,13 @@ def main():
                 from daneel.detection.tess_rf_model import RandomForestDetector
                 detector = RandomForestDetector(detection_params)
                 detector.detect()
+            elif alg.lower()== 'cnn':
+                from daneel.detection.cnn_model import TESSTransitCNN
+
+                detector = TESSTransitCNN()
+                
+                detector.set_params(detection_params)
+                detector.run()
             else:
                 print(f"Detection algorithm '{alg}' is not supported.")
 

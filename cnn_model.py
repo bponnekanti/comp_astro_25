@@ -58,11 +58,11 @@ class TESSTransitCNN:
     Refactored from transit_analysis_deep_learning.ipynb.
     """
 
-    def __init__(self, csv_path = 'tess_data.csv',
+    def __init__(self,csv_path = 'tess_data.csv',
                 n_bins = 1000 , gamma = 2.5, alpha = 0.75,
                 batch_size = 64, samples_per_class = 400,
                 config_name='Default'):
-        
+        # TessTransitCNN(params**)
         self.csv_path = csv_path
         self.n_bins = n_bins
         self.gamma = gamma
@@ -82,8 +82,18 @@ class TESSTransitCNN:
         self.y_train = None
         self.y_test = None
         self.metadata_test = None
-
-
+        self.kernel_size = 3
+    
+    def set_params(self,params):
+        self.gamma = params['gamma']
+        self.n_bins = params['n_bins']
+        self.alpha = params['alpha']
+        self.batch_size = params['batch_size']
+        self.samples_per_class = params['samples_per_class']
+        self.kernel_size = params['kernel_size']
+        self.threshold = params['threshold']
+        
+        
     def focal_loss(self):
         gamma = self.gamma
         alpha = self.alpha
@@ -248,17 +258,17 @@ class TESSTransitCNN:
         
         model = models.Sequential([
             layers.Input(shape=(n_bins, 1)),
-            layers.Conv1D(64, kernel_size=3, padding='same', activation='relu'),
+            layers.Conv1D(64, kernel_size=self.kernel_size, padding='same', activation='relu'),
             layers.BatchNormalization(),
             layers.MaxPooling1D(2),
             layers.Dropout(0.3),
             
-            layers.Conv1D(128, kernel_size=3, padding='same', activation='relu'),
+            layers.Conv1D(128, kernel_size=self.kernel_size, padding='same', activation='relu'),
             layers.BatchNormalization(),
             layers.MaxPooling1D(2),
             layers.Dropout(0.3),
             
-            layers.Conv1D(256, kernel_size=3, padding='same', activation='relu'),
+            layers.Conv1D(256, kernel_size=self.kernel_size, padding='same', activation='relu'),
             layers.BatchNormalization(),
             layers.GlobalAveragePooling1D(),
             layers.Dropout(0.4),
