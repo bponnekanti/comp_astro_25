@@ -40,7 +40,7 @@ daneel -i <input_file> [options]
 - `-d, --detect`: Initialize detection algorithms for exoplanets
 - `-a, --atmosphere`: Atmospheric characterization from input transmission spectrum
 - `-d rf`: Run the Random Forest exoplanet detection algorithm
-
+- `-d cnn`: Run the CNN exoplanet detection algorithm
 
 ### Examples
 
@@ -67,6 +67,11 @@ This command generates the transit light curve from the parameters in YAML file.
 daneel -i parameters.yaml -d rf
 
 ```
+```bash
+# Run CNN exoplanet detection
+daneel -i parameters.yaml -d cnn
+
+```
 
 ## Input File Format
 
@@ -85,6 +90,19 @@ For Random Forest detection, the YAML file should include a `detection` section 
     max_features: sqrt
     bootstrap: true
     class_weight: null
+
+For CNN, the YAML file should include a `detection` section with keys:
+  algorithm: cnn
+  dataset_path: path/to/tess_data.csv
+  n_bins: 1000
+  
+  samples_per_class: 350
+  alpha: 
+  gamma:
+  batch_size:
+  threshold:
+  kernel_size:
+ 
 
 
 ## License
