@@ -38,9 +38,10 @@ report_lines.append("-" * 40 + "\n")
 for i, params in enumerate(hyperparams_list, 1):
     print(f"\nRunning model {i}: n_estimators={params['n_estimators']}, max_depth={params['max_depth']}")
 
-    rf_model,y_pred, proba, threshold = rf_pipeline.run_random_forest(
+    rf_model, y_pred, proba, threshold, _ = rf_pipeline.run_random_forest(
         n_estimators=params['n_estimators'],
         max_depth=params['max_depth'],
+        preview_samples=0
     )
     
     # Compute confusion matrix and precision
