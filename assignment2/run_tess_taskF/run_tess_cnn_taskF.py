@@ -1,7 +1,7 @@
 ## Task F : Experimenting with CNN Hyperparameters
 #%%
 import sys
-sys.path.append('..')
+sys.path.append('.')
 
 
 # test_all_configs.py
