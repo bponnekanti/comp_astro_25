@@ -6,7 +6,8 @@ __pycache__/
 # C extensions
 *.so
 #notebook
-/ca25/comp_astro_25/notebook/
+/ca25/comp_astro_25/notebook/*
+notebook/*
 # Distribution / packaging
 .Python
 build/
