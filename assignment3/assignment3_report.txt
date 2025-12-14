@@ -1,0 +1,16 @@
+Assignment 3 commits:
+
+Task A:
+commit f42949c7450f4919cb62136d21841b4875501472
+Author: bponnekanti <bponnek@gmail.com>
+Date:   Sun Dec 14 17:14:39 2025 +0100
+
+**I'm not sure if we are supposed to be binning these plots.
+*Also, the spectrum file came out in 4 columns instead of 3 but the third column is all 0s and the fourth are error bars
+assuming we can just ignore the third column.
+
+Task B:
+
+Task C:
+
+Task D:
