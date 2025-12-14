@@ -1,0 +1,59 @@
+[Global]
+xsec_path = /Users/bponnekanti/Computational/atmosphere/xsecs
+cia_path =  /Users/bponnekati/Computational/atmosphere/cia/hitran
+mpi_use_shared = True
+
+[Chemistry]
+chemistry_type = taurex
+fill_gases = H2,He
+ratio = 0.25
+
+    [[H2O]]
+    gas_type = constant
+    mix_ratio=rng.uniform(1e-8,1e-2)
+
+    [[CO2]]
+    gas_type = constant
+    mix_ratio=rng.uniform(1e-8,1e-2)
+
+    [[CH4]]
+    gas_type = constant
+    mix_ratio=rng.uniform(1e-8,1e-2)
+
+    [[CO]]
+    gas_type = constant
+    mix_ratio=rng.uniform(1e-8,1e-2)
+
+
+[Temperature]
+profile_type = isothermal
+T = 1300
+
+[Pressure]
+profile_type = Simple
+atm_min_pressure = 1e-0
+atm_max_pressure = 1e6
+nlayers = 100
+
+[Planet]
+planet_type = Simple
+planet_mass = 1.170
+planet_radius = 1.7420
+
+[Star]
+star_type = blackbody
+temperature = 6628
+radius = 1.461
+
+[Model]
+model_type = transmission
+
+    [[Absorption]]
+
+    [[CIA]]
+    cia_pairs = H2-H2, H2-He,
+
+    [[Rayleigh]]
+
+[Output]
+path = ../../WASP121_assignment3_taskA_spectrum.dat

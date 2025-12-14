@@ -2,11 +2,18 @@
 __pycache__/
 *.py[cod]
 *$py.class
+<<<<<<< HEAD
 .DS_Store
 
+=======
+#Atmosphere
+atmosphere/*
+>>>>>>> refs/remotes/origin/main
 # C extensions
 *.so
-
+#notebook
+/ca25/comp_astro_25/notebook/*
+notebook/*
 # Distribution / packaging
 .Python
 build/
