@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 *$py.class
 #Atmosphere
-Atmosphere/*
+atmosphere/*
 # C extensions
 *.so
 #notebook
