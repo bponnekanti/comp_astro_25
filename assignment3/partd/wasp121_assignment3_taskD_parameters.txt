@@ -1,0 +1,74 @@
+[Global]
+xsec_path = /Users/lewisballard/Documents/MASTERS/computational/atmosphere/xsecs
+cia_path =  /Users/lewisballard/Documents/MASTERS/computational/atmosphere/cia/hitran
+mpi_use_shared = True
+
+[Chemistry]
+chemistry_type = taurex
+fill_gases = H2,He
+ratio = 0.15
+
+    [[H2O]]
+    gas_type = constant
+    mix_ratio=10e-5
+
+    [[CO2]]
+    gas_type = constant
+    mix_ratio=10e-2
+
+    [[SiO]]
+    gas_type = constant
+    mix_ratio=10e-4
+
+
+
+[Temperature]
+profile_type = isothermal
+T = 2500
+
+[Pressure]
+profile_type = Simple
+atm_min_pressure = 1e-0
+atm_max_pressure = 1e10
+nlayers = 100
+
+[Planet]
+planet_type = Simple
+planet_mass = 1.170
+planet_radius = 1.7420
+
+[Star]
+star_type = blackbody
+temperature = 6628
+radius = 1.461
+
+[Observation]
+observed_spectrum = /Users/lewisballard/Documents/MASTERS/computational/comp_astro_25/assignment3/WASP121bspectrum.dat
+
+[Model]
+model_type = transmission
+
+    [[Absorption]]
+
+    [[CIA]]
+    cia_pairs = H2-He,
+
+    [[Rayleigh]]
+
+[Optimizer]
+optimizer = nestle
+num_live_points = 300
+method = multi
+
+[Fitting]
+planet_radius:fit = True
+H2O:fit = True
+H2O:bounds = 1e-6, 1e-2
+T:fit = True
+
+# Set Boundaries to multiple of prior value
+T:factor = 0.5, 2  
+
+SiO:fit = True
+CO2:fit = True
+He_H2:fit = True
