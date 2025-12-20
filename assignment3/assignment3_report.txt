@@ -11,6 +11,18 @@ assuming we can just ignore the third column.
 
 Task B:
 
+commit ba282e4fec751d25c6a791cf30cebf12402ef738
+Author: lcballard <lewballard@gmail.com>
+Date:   Sat Dec 20 12:17:40 2025 -0800
+
+    task B, D done; unsure of comparison needed for D; left out fit result and pdf plot files due to size. had issues with git branch bc needed to undo commit of GB files so deleted branch and now one commit for both tasks, sorry. Git hates me
+
 Task C:
 
 Task D:
+
+commit ba282e4fec751d25c6a791cf30cebf12402ef738 (HEAD -> main, origin/main, origin/HEAD)
+Author: lcballard <lewballard@gmail.com>
+Date:   Sat Dec 20 12:17:40 2025 -0800
+
+    task B, D done; unsure of comparison needed for D; left out fit result and pdf plot files due to size. had issues with git branch bc needed to undo commit of GB files so deleted branch and now one commit for both tasks, sorry. Git hates me
