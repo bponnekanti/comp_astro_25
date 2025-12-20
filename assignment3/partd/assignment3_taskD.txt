@@ -1,0 +1,21 @@
+Optimizer solution:
+
+---Solution 0------
+taurex.Nestle - INFO - 
+Param                  MAP      Median (posterior +-)
+-------------  -----------  ----------
+planet_radius     0.924088     1.00566  +0.06 -0.07
+T                 2553.12      3069.83  +1220 -1166
+log_H2O          -4.06409     -4.06365  +1.40 -1.19
+log_CO2          -3.29689     -6.03612  +3.41 -3.85
+log_SiO          -5.77358     -6.09068  +3.23 -3.86
+log_He_H2        -3.8744      -6.49155  +3.62 -3.29
+
+
+input pars:
+T = 2500K
+radius= 1.742
+He_H2 ratio = 0.15
+H2O mix_ratio=10e-5
+CO2 mix_ratio=10e-2
+SiO mix_ratio=10e-4
