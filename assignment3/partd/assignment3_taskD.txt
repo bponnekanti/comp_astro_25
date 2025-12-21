@@ -1,21 +1,14 @@
-Optimizer solution:
+================ INPUT / FIXED PARAMETERS ================
+Planet Mass:     1.17
+Star Temperature:6628
+Star Radius:     1016417700.0
+Min Pressure:    1.2589254117941673
+Max Pressure:    794328.2347242822
+Num Layers:      30
 
----Solution 0------
-taurex.Nestle - INFO - 
-Param                  MAP      Median (posterior +-)
--------------  -----------  ----------
-planet_radius     0.924088     1.00566  +0.06 -0.07
-T                 2553.12      3069.83  +1220 -1166
-log_H2O          -4.06409     -4.06365  +1.40 -1.19
-log_CO2          -3.29689     -6.03612  +3.41 -3.85
-log_SiO          -5.77358     -6.09068  +3.23 -3.86
-log_He_H2        -3.8744      -6.49155  +3.62 -3.29
-
-
-input pars:
-T = 2500K
-radius= 1.742
-He_H2 ratio = 0.15
-H2O mix_ratio=10e-5
-CO2 mix_ratio=10e-2
-SiO mix_ratio=10e-4
+================ RETRIEVED PARAMETERS ================
+Parameter            Median          +1sigma         -1sigma         Best-Fit (Map) 
+-------------------------------------------------------------------------------------
+planet_radius        1.49950e+00     4.74302e-04     1.71055e-02     1.49998e+00    
+T_irr                2.48799e+03     1.12744e+01     2.54291e+02     2.49944e+03    
+log_H2O              -3.06814e+00    6.36948e-02     7.77817e-01     -3.00350e+00   
