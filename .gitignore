@@ -3,6 +3,14 @@ __pycache__/
 *.py[cod]
 *$py.class
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+.DS_Store
+
+=======
+#Taurex in assignment 3
+/assignment3/Taurex/*
+>>>>>>> b03e3a5 (Updating git ignore)
 #Atmosphere
 atmosphere/*
 =======
