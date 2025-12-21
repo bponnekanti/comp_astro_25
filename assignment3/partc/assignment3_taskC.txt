@@ -1,0 +1,14 @@
+================ INPUT / FIXED PARAMETERS ================
+Planet Mass:     1.17
+Star Temperature:6628.0
+Star Radius:     1016417700.0
+Min Pressure:    1.2589254117941673
+Max Pressure:    794328.2347242822
+Num Layers:      30
+
+================ RETRIEVED PARAMETERS ================
+Parameter            Median          +1sigma         -1sigma         Best-Fit (Map) 
+-------------------------------------------------------------------------------------
+planet_radius        1.74208e+00     7.34864e-03     2.98819e-03     1.74201e+00    
+T                    1.29810e+03     4.27371e+01     1.17043e+02     1.29964e+03    
+log_H2O              -2.16586e+00    9.21329e-02     2.61865e+00     -2.07928e+00   

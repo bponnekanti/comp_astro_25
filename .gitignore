@@ -9,8 +9,11 @@ __pycache__/
 
 =======
 #Taurex in assignment 3
+<<<<<<< HEAD
 /assignment3/Taurex/*
 >>>>>>> b03e3a5 (Updating git ignore)
+=======
+assignment3/Taurex/*
 #Atmosphere
 atmosphere/*
 =======
