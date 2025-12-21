@@ -1,0 +1,74 @@
+[Global]
+xsec_path = /ca25/comp_astro_25/atmosphere/xsecs
+cia_path =  /ca25/comp_astro_25/atmosphere/cia/hitran
+mpi_use_shared = True
+
+
+[Observation]
+observed_spectrum = wasp121b_assignment3_taskA_spectrum.dat
+
+[Optimizer]
+optimizer = nestle
+num_live_points = 100
+method = multi
+
+
+[Chemistry]
+chemistry_type = taurex
+fill_gases = H2,He
+ratio = 0.25
+
+    [[H2O]]
+    gas_type = constant
+    mix_ratio=8.349817955203785e-3
+
+    [[CO2]]
+    gas_type = constant
+    mix_ratio=4.295252774264071e-4
+
+    [[CH4]]
+    gas_type = constant
+    mix_ratio=5.965544304138603e-3
+
+    [[CO]]
+    gas_type = constant
+    mix_ratio=2.888639528279619e-3
+
+
+[Temperature]
+profile_type = isothermal
+T = 1300
+
+[Pressure]
+profile_type = Simple
+atm_min_pressure = 1e-0
+atm_max_pressure = 1e6
+nlayers = 30
+
+[Planet]
+planet_type = Simple
+planet_mass = 1.170
+planet_radius = 1.7420
+
+[Star]
+star_type = blackbody
+temperature = 6628
+radius = 1.461
+
+[Model]
+model_type = transmission
+
+    [[Absorption]]
+
+    [[CIA]]
+    cia_pairs = H2-H2, H2-He,
+
+    [[Rayleigh]]
+[Fitting]
+planet_radius:fit = True
+planet_radius:bounds = 0.9,2
+T:fit = True
+H2O:fit = True
+T:bounds = 1000,2500
+H2O:bounds = 1e-6, 1e-2
+
