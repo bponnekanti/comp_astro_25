@@ -8,6 +8,12 @@ Date:   Sun Dec 14 17:14:39 2025 +0100
 **I'm not sure if we are supposed to be binning these plots.
 *Also, the spectrum file came out in 4 columns instead of 3 but the third column is all 0s and the fourth are error bars
 assuming we can just ignore the third column.
+//
+commit c0690c7c1a3182024352302e98466d2b41618b84
+Author: adityaswamy-Astro <aditya.swamy@studenti.unipd.it>
+Date:   Sun Dec 21 15:36:47 2025 +0000
+
+    Adding Task C (also includes newly done task A)
 
 Task B:
 
@@ -19,10 +25,16 @@ Date:   Sat Dec 20 12:17:40 2025 -0800
 
 Task C:
 
+commit c0690c7c1a3182024352302e98466d2b41618b84
+Author: adityaswamy-Astro <aditya.swamy@studenti.unipd.it>
+Date:   Sun Dec 21 15:36:47 2025 +0000
+
+    Adding Task C (also includes newly done task A)
+
 Task D:
 
-commit ba282e4fec751d25c6a791cf30cebf12402ef738 (HEAD -> main, origin/main, origin/HEAD)
+commit 8b82324c091d50b0196e9dd7192d6fc9997b84c2 (HEAD -> main, origin/main, origin/HEAD)
 Author: lcballard <lewballard@gmail.com>
-Date:   Sat Dec 20 12:17:40 2025 -0800
+Date:   Sun Dec 21 11:21:59 2025 -0800
 
-    task B, D done; unsure of comparison needed for D; left out fit result and pdf plot files due to size. had issues with git branch bc needed to undo commit of GB files so deleted branch and now one commit for both tasks, sorry. Git hates me
+    task D actually done, plots made, .txt file made
