@@ -6,6 +6,8 @@ __pycache__/
 .DS_Store
 
 =======
+#Taurex in assignment 3
+/assignment3/Taurex/*
 #Atmosphere
 atmosphere/*
 >>>>>>> refs/remotes/origin/main
