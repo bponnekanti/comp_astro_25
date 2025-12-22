@@ -2,7 +2,7 @@
 ## run task A with class base atmosphere
 
 import yaml
-from base import BaseAtmosphere
+from base import ForwardModel
 
 def run_taskA():
     #Load parameters

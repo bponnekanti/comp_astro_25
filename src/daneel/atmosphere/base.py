@@ -23,7 +23,7 @@ from taurex.model import TransmissionModel , EmissionModel, DirectImageModel
 from taurex.contributions import AbsorptionContribution, CIAContribution, RayleighContribution
 from taurex.binning import SimpleBinner
 
-class BaseAtmosphere:
+class ForwardModel:
     def __init__(self, params_file = None, params_dict = None):
         """
         Base class for atmospheres.
@@ -60,6 +60,12 @@ class BaseAtmosphere:
         self.fill_gases = atmosphere.get('fill_gases', ['H2', 'He'])
         self.he_h2_ratio = atmosphere.get('he_h2_ratio', 0.172)
         self.cia_pairs = atmosphere.get('cia_pairs', ['H2-H2', 'H2-He'])
+
+        # Output files - task E
+        self.spectrum_file = atmosphere.get('output_spectrum', None)
+        self.tm_plot_file = atmosphere.get('output_tm_plot', None)
+        self.params_file = atmosphere.get('output_params', None)
+
         
         # Wavelength grid
         wavelength = self.params.get('wavelength', {})
@@ -212,12 +218,11 @@ class BaseAtmosphere:
         if binned:
             bin_wn, bin_rprs, _, _ = self.binner.bin_model(self.tm.model(wngrid=self.wngrid))
             wavelengths = 10000 / bin_wn
-            spectrum = bin_rprs  # Convert to (rp/rs)^2
+            spectrum = bin_rprs**2  # Convert to (rp/rs)^2
         else:
             native_grid, rprs, _, _ = self.model_result
             wavelengths = 10000 / native_grid
-            spectrum = rprs 
-        
+            spectrum = rprs ** 2
         # Add 10ppm error bars (10 parts per million = 0.001%)
         error = spectrum * 1e-5  # 10ppm = 0.001% = 1e-5
         
@@ -309,10 +314,10 @@ class BaseAtmosphere:
         else:
             native_grid, rprs, tau, _ = self.model_result
             wavelengths = 10000 / native_grid
-            plt.plot(wavelengths, rprs, 'r-', linewidth=2, label='Native')
+            plt.plot(wavelengths, rprs**2, 'r-', linewidth=2, label='Native')
         plt.xscale("log")
         plt.xlabel("Wavelength [µm]")
-        plt.ylabel("(Transit Radius / Rstar)")
+        plt.ylabel("(Transit Radius / Rstar)²")
         plt.title(f"Transmission Spectrum - {self.planet_name}", fontsize=14)
         plt.grid(True, alpha=0.3)
         plt.legend()
@@ -415,4 +420,50 @@ class BaseAtmosphere:
                 co_mix=(-7.0, -2.0, 0.1))
 
         plt.tight_layout()
+    
+    def run(self, random_abundances=False, plot_all=False):
+        print(f"\n{'='*50}")
+        print(f"Running atmospheric analysis for {self.planet_name}")
+        print(f"{'='*50}")
+
+        # Step 1: Setup environment
+        print("\n[1/5] Setting up environment...")
+        self.setup_environment()
+
+        # Step 2: Setup profiles
+        print("[2/5] Setting up profiles...")
+        self.setup_profile(random_abundances=random_abundances)
+
+        # Step 3: Build models
+        print("[3/5] Building models...")
+        self.build_models()
+
+        # Step 4: Save outputs
+        print("[4/5] Saving outputs...")
+        spectrum_file = self.spectrum_file
+        params_file = self.params_file
+        tm_plot_file = self.tm_plot_file
+
+        self.save_spectrum(filename=spectrum_file)
+        self.save_parameters(filename=params_file)
+
+        # Step 5: Create plots
+        print("[5/5] Creating plots...")
+        self.plot_profiles(save=True)
+        self.plot_tm_spectrum(binned=True, save=True, filename=tm_plot_file)
+
+        # Optional: plot all models (TM, EM, DI)
+        if plot_all:
+            print("[6/5] Plotting all models (TM, EM, DI)...")
+            self.plot_all_models()
+
+        print(f"\n{'='*50}")
+        print("ANALYSIS COMPLETE!")
+        print(f"{'='*50}")
+        print(f"✓ Spectrum saved to: {spectrum_file}")
+        print(f"✓ Parameters saved to: {params_file}")
+        print(f"✓ Transmission plot saved to: {tm_plot_file}")
+        if plot_all:
+            print("✓ All models plot displayed")
+        print(f"{'='*50}")
 # %%

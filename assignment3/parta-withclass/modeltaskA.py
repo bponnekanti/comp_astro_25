@@ -10,7 +10,7 @@ src_path = os.path.join(project_root, 'src')
 sys.path.insert(0, src_path)
 
 # Now import your BaseAtmosphere
-from daneel.atmosphere.base import BaseAtmosphere
+from daneel.atmosphere.base import ForwardModel
 
 def run_taskA():
 

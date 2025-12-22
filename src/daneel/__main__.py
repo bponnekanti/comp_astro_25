@@ -9,6 +9,7 @@ from daneel.parameters import Parameters
 from daneel.detection import *
 from daneel import transit
 from daneel.parameters import plot_transits
+from daneel.atmosphere.base import ForwardModel
 
 ##mahdis' note: 
 # datetime lets us track when the program starts and ends.
@@ -65,6 +66,7 @@ def main():
     input_pars_in = args.input_file.split(",") #seperated by comma (no space)
     input_pars_transit = []
     input_pars_detection = []
+    input_pars_atmosphere = []
 
     for ymlfilepath in input_pars_in:
         params = Parameters(ymlfilepath).params
@@ -73,6 +75,7 @@ def main():
         if 'detection' in params:
             input_pars_detection.append(params['detection'])
 
+        input_pars_atmosphere.append(params)
 
     if args.transit:
         transit_list = []
@@ -99,7 +102,9 @@ def main():
                 print(f"Detection algorithm '{alg}' is not supported.")
 
     elif args.atmosphere:
-        pass
+        for params in input_pars_atmosphere:
+            atmosphere = ForwardModel(params_dict=params)
+            atmosphere.run()
 
     finish = datetime.datetime.now()
     print(f"Daneel finishes at {finish}")
