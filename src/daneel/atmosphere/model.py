@@ -1,26 +1,30 @@
 #%%
-## run task A with class base atmosphere
+## run the base atmosphere model for WASP-121b with random abundances
 
 import yaml
 from base import ForwardModel
 
-def run_taskA():
+def run_forward_model():
     #Load parameters
     with open('wasp121b_atmosphere.yaml', 'r') as f:
         params = yaml.safe_load(f)
     
     #Create atmosphere model
-    atm = BaseAtmosphere(params_dict=params)
-    atm.setup_environment()
-    atm.setup_profile(random_abundances=True)
-    atm.build_models()
-    
+    fm = ForwardModel(params_dict=params)
+    fm.setup_environment()
+    fm.setup_profile(random_abundances=True)
+    fm.build_models()
+
     # Save outputs
-    planet_name = atm.planet_name
-    atm.save_spectrum(f"{planet_name}_assignment3_taskA_spectrum.dat")
-    atm.save_parameters(f"{planet_name}_assignment3_taskA_parameters.txt")
-    atm.plot_tm_spectrum(save=True, filename=f"{planet_name}_assignment3_taskA_spectrum.png")
-    
-    print(f"\n Task A complete for {planet_name}!")
+    planet_name = fm.planet_name
+    fm.save_spectrum(f"{planet_name}_assignment3_spectrum.dat")
+    fm.save_parameters(f"{planet_name}_assignment3_parameters.txt")
+    fm.plot_tm_spectrum(save=True, filename=f"{planet_name}_assignment3_spectrum.png")
+    fm.plot_profiles(save=True, filename=f"{planet_name}_assignment3_profile.png")
+    fm.plot_all_models(save=True, filename=f"{planet_name}_assignment3_all_models.png")
+    #fm.interact_update_all_models()
+
+    print(f"\n Forward model complete for {planet_name}!")
 if __name__ == "__main__":
-    run_taskA()
+    run_forward_model()
+# %%
