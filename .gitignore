@@ -2,8 +2,13 @@
 __pycache__/
 *.py[cod]
 *$py.class
+<<<<<<< HEAD
 #Atmosphere
 atmosphere/*
+=======
+.DS_Store
+
+>>>>>>> 7df4c10 (fixing .DS_store issue (hopefully))
 # C extensions
 *.so
 #notebook
