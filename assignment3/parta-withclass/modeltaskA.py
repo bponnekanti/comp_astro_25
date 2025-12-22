@@ -9,7 +9,7 @@ project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 src_path = os.path.join(project_root, 'src')
 sys.path.insert(0, src_path)
 
-# Now import your BaseAtmosphere
+# Now import your ForwardModel
 from daneel.atmosphere.base import ForwardModel
 
 def run_taskA():
@@ -17,7 +17,7 @@ def run_taskA():
     yaml_file = 'wasp121b_atmosphere.yaml'
     
     # Create atmosphere model directly from YAML file
-    atm = BaseAtmosphere(params_file=yaml_file)
+    atm = ForwardModel(params_file=yaml_file)
     atm.setup_environment()
     atm.setup_profile(random_abundances=True) 
     atm.build_models()

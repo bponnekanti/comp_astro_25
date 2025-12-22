@@ -1,6 +1,6 @@
 === ATMOSPHERIC MODEL PARAMETERS ===
 Planet: WASP-121b
-Date: 2025-12-22 15:50:52
+Date: 2025-12-22 19:15:18
 
 --- Planetary Parameters ---
 Planet radius: 1.81 R_jup
@@ -22,10 +22,10 @@ Fill gases: H2, He
 He/H2 ratio: 0.172
 
 --- Abundances (Mixing Ratios) ---
-H2O: 6.32e-03
-CH4: 7.31e-08
-CO2: 6.95e-04
-CO: 2.96e-05
+H2O: 8.94e-05
+CH4: 3.06e-08
+CO2: 5.84e-03
+CO: 7.80e-04
 
 --- CIA Pairs ---
 H2-H2
