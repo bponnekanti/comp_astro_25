@@ -201,16 +201,7 @@ class ForwardModel:
         self.model_result = self.tm.model()
     
     def save_spectrum(self, filename, binned=True):
-        """
-        Save transmission spectrum to file with 10ppm error bars.
-        
-        Parameters:
-        -----------
-        filename : str, optional
-            Output filename. If None, use self.output_spectrum
-        binned : bool
-            If True, save binned spectrum; if False, save native resolution
-        """
+
         if filename is None:
             raise ValueError("Filename must be provided in save_spectrum()")
         
@@ -218,32 +209,27 @@ class ForwardModel:
         if binned:
             bin_wn, bin_rprs, _, _ = self.binner.bin_model(self.tm.model(wngrid=self.wngrid))
             wavelengths = 10000 / bin_wn
-            spectrum = bin_rprs**2  # Convert to (rp/rs)^2
+            spectrum = bin_rprs
         else:
             native_grid, rprs, _, _ = self.model_result
             wavelengths = 10000 / native_grid
-            spectrum = rprs ** 2
-        # Add 10ppm error bars (10 parts per million = 0.001%)
-        error = spectrum * 1e-5  # 10ppm = 0.001% = 1e-5
+            spectrum = rprs
+        
+        # Estimate error (10 ppm)
+        spectrum_squared = spectrum ** 2
+        error = spectrum_squared * 1e-5
         
         # Save to file
-        data = np.column_stack([wavelengths, spectrum, error])
+        data = np.column_stack([wavelengths, spectrum_squared, error])
         np.savetxt(filename, data, 
                   header='wavelength[µm] (rp/rs)^2 error',
                   fmt='%.8e %.8e %.8e')
         
         print(f"✓ Spectrum saved to {filename}")
-        return wavelengths, spectrum, error
+        return wavelengths, spectrum_squared, error
     
     def save_parameters(self, filename):
-        """
-        Save all model parameters to a text file.
-        
-        Parameters:
-        -----------
-        filename : str, optional
-            Output filename. If None, use self.output_parameters
-        """
+
         if filename is None:
             raise ValueError("Filename must be provided in save_parameters()")
         
@@ -286,7 +272,9 @@ class ForwardModel:
         
         print(f"✓ Parameters saved to {filename}")
 
-    def plot_profiles(self, save =False):
+    def plot_profiles(self, save =False, filename=None):
+        """Plot chemistry profile (mixing ratios vs pressure)"""
+
         plt.figure()
         for x,gasname in enumerate(self.chemistry.activeGases):
             plt.plot(self.chemistry.activeGasMixProfile[x],self.tm.pressureProfile/1e5,label=gasname)
@@ -295,30 +283,44 @@ class ForwardModel:
         plt.gca().invert_yaxis()
         plt.yscale("log")
         plt.xscale("log")
-        plt.legend()
+        plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
         plt.xlabel("Mixing ratio")
         plt.ylabel("Pressure [bar]")
         plt.title(f"Chemistry of the Atmosphere - {self.planet_name}")
         if save:
-            plt.savefig(f"{self.planet_name}_chemistry_profile.png")
-            print(f"✓ Chemistry profile saved to {self.planet_name}_chemistry_profile.png")
+            if filename is None:
+                raise ValueError("Filename must be provided when save=True")
+            plt.savefig(filename, bbox_inches='tight', dpi=300)
+            print(f"✓ Chemistry profile saved to {filename}")
         plt.show()
         
 
     def plot_tm_spectrum(self, binned=True, save=False, filename=None):
         """Plot Transmission Model flux (native or binned)."""
+
+        plt.figure(figsize=(10, 6))
+
         if binned:
             bin_wn, bin_rprs, _, _ = self.binner.bin_model(self.tm.model(wngrid=self.wngrid))
             wavelengths = 10000 / bin_wn
-            plt.plot(wavelengths, bin_rprs, 'b-', linewidth=2, label='Binned')
+            spectrum = bin_rprs**2
+            label = 'Binned spectrum'
+            line_style = 'b-'
         else:
-            native_grid, rprs, tau, _ = self.model_result
-            wavelengths = 10000 / native_grid
-            plt.plot(wavelengths, rprs**2, 'r-', linewidth=2, label='Native')
+            # Get native spectrum
+            native_result = self.tm.model()
+            native_wn = native_result[0]
+            wavelengths = 10000 / native_wn
+            spectrum = native_result[1]**2
+            label = 'Native spectrum'
+            line_style = 'r-'
+
+        plt.plot(wavelengths, spectrum, line_style, linewidth=2, label=label)
         plt.xscale("log")
         plt.xlabel("Wavelength [µm]")
-        plt.ylabel("(Transit Radius / Rstar)²")
+        plt.ylabel("$(R_p/R_*)^2$")
         plt.title(f"Transmission Spectrum - {self.planet_name}", fontsize=14)
+        plt.ylim(min(spectrum)*0.9, max(spectrum)*1.1)
         plt.grid(True, alpha=0.3)
         plt.legend()
         if save:
@@ -328,17 +330,18 @@ class ForwardModel:
             print(f"✓ Spectrum plot saved to {filename}")
         plt.show()
 
-    def plot_all_models(self):
+    def plot_all_models(self, save=False, filename=None):
         """Plot TM, Emission, and Direct Image models together."""
+        
         fig = plt.figure(figsize=(9,4))
         tm_ax = fig.add_subplot(1,3,1)
         em_ax = fig.add_subplot(1,3,2)
         di_ax = fig.add_subplot(1,3,3)
-
-        model_tm, = tm_ax.plot(10000/self.wngrid, self.binner.bin_model(self.tm.model(self.wngrid))[1])
-        model_em, = em_ax.plot(10000/self.wngrid, self.binner.bin_model(self.em.model(self.wngrid))[1])
-        model_di, = di_ax.plot(10000/self.wngrid, self.binner.bin_model(self.di.model(self.wngrid))[1])
-
+    
+        model_tm = tm_ax.plot(10000/self.wngrid, self.binner.bin_model(self.tm.model(self.wngrid))[1])
+        model_em = em_ax.plot(10000/self.wngrid, self.binner.bin_model(self.em.model(self.wngrid))[1])
+        model_di = di_ax.plot(10000/self.wngrid, self.binner.bin_model(self.di.model(self.wngrid))[1])
+        
         tm_ax.set_xscale('log')
         em_ax.set_xscale('log')
         di_ax.set_xscale('log')
@@ -352,7 +355,13 @@ class ForwardModel:
         tm_ax.set_ylabel('Flux')
         
         plt.tight_layout()
+        if save:
+            if filename is None:
+                raise ValueError("Filename must be provided when save=True")
+            plt.savefig(filename)
+            print(f"✓ All models plot saved to {filename}")
         plt.show()
+        return model_tm, model_em, model_di
 
     def interact_update_all_models(self):
         """Interactive sliders to update temperature & H2O abundance for TM, EM, and DI."""
@@ -421,7 +430,7 @@ class ForwardModel:
 
         plt.tight_layout()
     
-    def run(self, random_abundances=False, plot_all=False):
+    def run(self, random_abundances=False, plot_all=False, interactive=False):
         print(f"\n{'='*50}")
         print(f"Running atmospheric analysis for {self.planet_name}")
         print(f"{'='*50}")
@@ -440,10 +449,18 @@ class ForwardModel:
 
         # Step 4: Save outputs
         print("[4/5] Saving outputs...")
+        
         spectrum_file = self.spectrum_file
         params_file = self.params_file
         tm_plot_file = self.tm_plot_file
-
+        
+        if self.spectrum_file is None:
+            self.spectrum_file = f"{self.planet_name}_spectrum.txt"
+        if self.params_file is None:
+            self.params_file = f"{self.planet_name}_params.txt"
+        if self.tm_plot_file is None:
+            self.tm_plot_file = f"{self.planet_name}_tm_spectrum.png"
+    
         self.save_spectrum(filename=spectrum_file)
         self.save_parameters(filename=params_file)
 
@@ -452,6 +469,11 @@ class ForwardModel:
         self.plot_profiles(save=True)
         self.plot_tm_spectrum(binned=True, save=True, filename=tm_plot_file)
 
+        # Optional: interactive sliders (only in notebook)
+        if interactive:
+            print("[5.5/5] Launching interactive mode...")
+            self.interact_update_all_models()
+        
         # Optional: plot all models (TM, EM, DI)
         if plot_all:
             print("[6/5] Plotting all models (TM, EM, DI)...")

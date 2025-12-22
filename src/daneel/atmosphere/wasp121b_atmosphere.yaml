@@ -32,6 +32,7 @@ atmosphere:
   output_spectrum: "WASP-121b_spectrum.txt"
   output_tm_plot: "WASP-121b_tm_spectrum.png"
   output_params: "WASP-121b_params.txt"
+  output_chemistry_plot: "WASP-121b_chemistry_profile.png"
 
   #molecules
   molecules: ["H2O", "CH4", "CO2", "CO"]

@@ -10,6 +10,7 @@ from daneel.detection import *
 from daneel import transit
 from daneel.parameters import plot_transits
 from daneel.atmosphere.base import ForwardModel
+#from daneel.atmosphere.retrieval import RetrievalModel
 
 ##mahdis' note: 
 # datetime lets us track when the program starts and ends.
@@ -40,9 +41,10 @@ def main():
         "-a",
         "--atmosphere",
         dest="atmosphere",
+        type=str,
         required=False,
         help="Atmospheric Characterisazion from input transmission spectrum",
-        action="store_true",
+        #action="store_true",
     )
 
     parser.add_argument(
@@ -102,9 +104,19 @@ def main():
                 print(f"Detection algorithm '{alg}' is not supported.")
 
     elif args.atmosphere:
-        for params in input_pars_atmosphere:
-            atmosphere = ForwardModel(params_dict=params)
-            atmosphere.run()
+        action = args.atmosphere.lower()
+        
+        if action == 'model':
+            for params in input_pars_atmosphere:
+                atmosphere = ForwardModel(params_dict=params)
+                atmosphere.run()
+                
+        elif action == 'retrieve':
+            for params in input_pars_atmosphere:
+                # You need to create this RetrievalModel class
+                retrieval = RetrievalModel(params_dict=params)
+                retrieval.run()
+
 
     finish = datetime.datetime.now()
     print(f"Daneel finishes at {finish}")
