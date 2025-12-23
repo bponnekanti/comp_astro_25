@@ -49,7 +49,7 @@ wavelength:
 
 
 retrieval:
-  observed_spectrum: "WASP-121b_assignment3_spectrum.dat"
+  observed_spectrum: "WASP121b_assignment3_taskA_spectrum.dat"
   
   # Parameters to fit during retrieval
   fit_parameters: ["planet_radius", "T", "H2O", "CH4", "CO2", "CO"]
@@ -64,7 +64,7 @@ retrieval:
     CO: [1e-6, 1e-3]                   # Mixing ratio
   
   # Nestle optimizer settings
-  num_live_points: 50
+  num_live_points: 15
   
   # Output files for retrieval results
   output_retrieved_spectrum: "WASP-121b_retrieved_spectrum.txt"
