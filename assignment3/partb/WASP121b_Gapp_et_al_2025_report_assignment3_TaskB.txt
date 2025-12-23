@@ -1,0 +1,17 @@
+WASP121-b system and planet parameters
+
+a/Rstar   3.7844
+i         87.45 deg
+Rp/Rstar  0.122542
+Tstar_eff 6628K
+Rstar     1.461 solar radii
+Mstar     1.330 solar masses
+
+Mp        1.16 M jup
+Rp        1.75 R jup
+T_eq      2350 K
+
+CO mole frac     -2.34 log_10
+SiO mole frac    -4.60 log_10
+H20 mole frac    -5.74 log_10
+cloud top press  10.02 log_10(bar)
