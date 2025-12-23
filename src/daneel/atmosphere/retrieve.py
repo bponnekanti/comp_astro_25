@@ -320,6 +320,8 @@ class RetrievalModel(ForwardModel):
         super().setup_environment()
         self.setup_profile(random_abundances=False)  # Don't randomize for retrieval
         super().build_models()
+        self.tm.temperature_profile = self.temperature_profile
+
         
         # Step 4: Retrieval-specific setup
         self.setup_retrieval()
