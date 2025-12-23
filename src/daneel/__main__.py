@@ -10,7 +10,7 @@ from daneel.detection import *
 from daneel import transit
 from daneel.parameters import plot_transits
 from daneel.atmosphere.base import ForwardModel
-#from daneel.atmosphere.retrieval import RetrievalModel
+from daneel.atmosphere.retrieve import RetrievalModel
 
 ##mahdis' note: 
 # datetime lets us track when the program starts and ends.
@@ -108,8 +108,8 @@ def main():
         
         if action == 'model':
             for params in input_pars_atmosphere:
-                atmosphere = ForwardModel(params_dict=params)
-                atmosphere.run()
+                model = ForwardModel(params_dict=params)
+                model.run()
                 
         elif action == 'retrieve':
             for params in input_pars_atmosphere:

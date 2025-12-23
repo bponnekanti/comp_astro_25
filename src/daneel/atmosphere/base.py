@@ -140,12 +140,14 @@ class ForwardModel:
 
         for mol in self.molecules:
             if random_abundances:
+                # Task A requirement: random between 10^-8 and 10^-2
                 mix_ratio = 10 ** np.random.uniform(-8, -2)
-                self.gas_abundances[mol] = mix_ratio
             else:
-                mix_ratio = self.params.get(f'{mol.lower()}_abundance', 10 ** np.random.uniform(-8, -2))
-                self.gas_abundances[mol] = mix_ratio
+                # For retrieval: use midpoint of prior or default
+                # Simple approach - just use random for now
+                mix_ratio = 10 ** np.random.uniform(-8, -2)
             
+            self.gas_abundances[mol] = mix_ratio
             self.chemistry.addGas(ConstantGas(mol, mix_ratio=mix_ratio))
             print(f"Added {mol} with abundance: {mix_ratio:.2e}")
 
@@ -195,19 +197,33 @@ class ForwardModel:
         wavelengths = np.logspace(np.log10(self.wavelength_min),
                                   np.log10(self.wavelength_max),
                                   self.n_wavelength_points)
-        self.wngrid = np.sort(10000 / wavelengths)
-        # Prepare binner
-        self.binner = SimpleBinner(wngrid=self.wngrid)
-        self.model_result = self.tm.model()
+        # 1. For MODEL: descending (TauREx requirement)
+        self.model_wngrid = 10000 / wavelengths
+        self.model_wngrid = np.sort(self.model_wngrid)[::-1]  # DESCENDING
+        
+        # 2. For BINNER: increasing (SimpleBinner requirement)  
+        self.binner_wngrid = np.sort(self.model_wngrid)  # ASCENDING (reverse of model)
+        self.wngrid = self.model_wngrid
+        
+        # Prepare binner with INCREASING grid
+        self.binner = SimpleBinner(wngrid=self.binner_wngrid)
+        
+        # Run model with DESCENDING grid
+        self.model_result = self.tm.model(wngrid=self.model_wngrid)
+        
+        print(f"Model grid: {self.model_wngrid[0]:.1f} to {self.model_wngrid[-1]:.1f} cm⁻¹ (descending)")
+        print(f"Binner grid: {self.binner_wngrid[0]:.1f} to {self.binner_wngrid[-1]:.1f} cm⁻¹ (ascending)")
     
     def save_spectrum(self, filename, binned=True):
 
         if filename is None:
             raise ValueError("Filename must be provided in save_spectrum()")
         
-        # Get spectrum
+
         if binned:
-            bin_wn, bin_rprs, _, _ = self.binner.bin_model(self.tm.model(wngrid=self.wngrid))
+            # Model on DESCENDING grid, binner on ASCENDING grid
+            model_output = self.tm.model(wngrid=self.model_wngrid)
+            bin_wn, bin_rprs, _, _ = self.binner.bin_model(model_output)
             wavelengths = 10000 / bin_wn
             spectrum = bin_rprs
         else:
@@ -215,19 +231,42 @@ class ForwardModel:
             wavelengths = 10000 / native_grid
             spectrum = rprs
         
-        # Estimate error (10 ppm)
-        spectrum_squared = spectrum ** 2
-        error = spectrum_squared * 1e-5
+        error = 1e-5 * spectrum
         
-        # Save to file
-        data = np.column_stack([wavelengths, spectrum_squared, error])
+        data = np.column_stack([wavelengths, spectrum, error])
         np.savetxt(filename, data, 
-                  header='wavelength[µm] (rp/rs)^2 error',
-                  fmt='%.8e %.8e %.8e')
+                header='wavelength[µm] (rp/rs)^2 error',
+                fmt='%.8e %.8e %.8e')
         
         print(f"✓ Spectrum saved to {filename}")
-        return wavelengths, spectrum_squared, error
+        return wavelengths, spectrum, error
     
+    def _save_spectrum_fallback(self, filename, binned=True):
+        """Fallback method if main save_spectrum fails."""
+        print("Using fallback spectrum saving...")
+        
+        # Simple approach: use already computed model_result
+        if self.model_result is not None:
+            native_grid, rprs, _, _ = self.model_result
+            wavelengths = 10000 / native_grid
+            spectrum = rprs
+            
+            # If binned, just use native (we can't bin without binner)
+            if binned:
+                print("Warning: Cannot bin, using native spectrum")
+            
+            error = 1e-5 * spectrum
+            
+            data = np.column_stack([wavelengths, spectrum, error])
+            np.savetxt(filename, data,
+                    header='wavelength[µm] (rp/rs)^2 error',
+                    fmt='%.8e %.8e %.8e')
+            
+            print(f"✓ Spectrum saved (fallback): {filename}")
+            return wavelengths, spectrum, error
+        else:
+            raise ValueError("No model result available to save")
+        
     def save_parameters(self, filename):
 
         if filename is None:
@@ -301,31 +340,27 @@ class ForwardModel:
         plt.figure(figsize=(10, 6))
 
         if binned:
-            bin_wn, bin_rprs, _, _ = self.binner.bin_model(self.tm.model(wngrid=self.wngrid))
+        # Use correct grids
+            model_output = self.tm.model(wngrid=self.model_wngrid)
+            bin_wn, bin_rprs, _, _ = self.binner.bin_model(model_output)
             wavelengths = 10000 / bin_wn
-            spectrum = bin_rprs**2
+            spectrum = bin_rprs
             label = 'Binned spectrum'
-            line_style = 'b-'
         else:
-            # Get native spectrum
-            native_result = self.tm.model()
-            native_wn = native_result[0]
-            wavelengths = 10000 / native_wn
-            spectrum = native_result[1]**2
+            native_grid, rprs, _, _ = self.model_result
+            wavelengths = 10000 / native_grid
+            spectrum = rprs
             label = 'Native spectrum'
-            line_style = 'r-'
-
-        plt.plot(wavelengths, spectrum, line_style, linewidth=2, label=label)
+        
+        plt.plot(wavelengths, spectrum, 'b-', linewidth=2, label=label)
         plt.xscale("log")
         plt.xlabel("Wavelength [µm]")
         plt.ylabel("$(R_p/R_*)^2$")
-        plt.title(f"Transmission Spectrum - {self.planet_name}", fontsize=14)
-        plt.ylim(min(spectrum)*0.9, max(spectrum)*1.1)
-        plt.grid(True, alpha=0.3)
+        plt.title(f"Transmission Spectrum - {self.planet_name}")
         plt.legend()
-        if save:
-            if filename is None:
-                raise ValueError("Filename must be provided when save=True")
+        plt.grid(True, alpha=0.3)
+        
+        if save and filename:
             plt.savefig(filename)
             print(f"✓ Spectrum plot saved to {filename}")
         plt.show()
@@ -338,10 +373,15 @@ class ForwardModel:
         em_ax = fig.add_subplot(1,3,2)
         di_ax = fig.add_subplot(1,3,3)
     
-        model_tm = tm_ax.plot(10000/self.wngrid, self.binner.bin_model(self.tm.model(self.wngrid))[1])
-        model_em = em_ax.plot(10000/self.wngrid, self.binner.bin_model(self.em.model(self.wngrid))[1])
-        model_di = di_ax.plot(10000/self.wngrid, self.binner.bin_model(self.di.model(self.wngrid))[1])
+        # Use correct grids
+        tm_output = self.tm.model(wngrid=self.model_wngrid)
+        em_output = self.em.model(wngrid=self.model_wngrid)
+        di_output = self.di.model(wngrid=self.model_wngrid)
         
+        tm_ax.plot(10000/self.binner_wngrid, self.binner.bin_model(tm_output)[1])
+        em_ax.plot(10000/self.binner_wngrid, self.binner.bin_model(em_output)[1])
+        di_ax.plot(10000/self.binner_wngrid, self.binner.bin_model(di_output)[1])
+
         tm_ax.set_xscale('log')
         em_ax.set_xscale('log')
         di_ax.set_xscale('log')
@@ -466,7 +506,7 @@ class ForwardModel:
 
         # Step 5: Create plots
         print("[5/5] Creating plots...")
-        self.plot_profiles(save=True)
+        self.plot_profiles(save=True , filename=f"{self.planet_name}_chemistry_profile.png")
         self.plot_tm_spectrum(binned=True, save=True, filename=tm_plot_file)
 
         # Optional: interactive sliders (only in notebook)
