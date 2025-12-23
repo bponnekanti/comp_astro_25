@@ -16,8 +16,8 @@ transit:
 
 
 planet:
-  radius: 1.81        # Jupiter radii (WASP-121b is ~1.81 R_jup)
-  mass: 1.18          # Jupiter masses (WASP-121b is ~1.18 M_jup)
+  radius: 1.81         # Jupiter radii         
+  mass: 1.18          
 
 star:
   temperature: 6459   
@@ -33,14 +33,11 @@ atmosphere:
   output_tm_plot: "WASP-121b_tm_spectrum.png"
   output_params: "WASP-121b_params.txt"
   output_chemistry_plot: "WASP-121b_chemistry_profile.png"
-
   #molecules
   molecules: ["H2O", "CH4", "CO2", "CO"]
-
  # Background/fill gases
   fill_gases: ["H2", "He"]
   he_h2_ratio: 0.172  # Standard He/H2 ratio
-
   # Collision-induced absorption pairs
   cia_pairs: ["H2-H2", "H2-He"]
 
@@ -49,3 +46,27 @@ wavelength:
   min: 0.3    # microns
   max: 10.0   # microns
   n_points: 1000
+
+
+retrieval:
+  observed_spectrum: "WASP-121b_assignment3_spectrum.dat"
+  
+  # Parameters to fit during retrieval
+  fit_parameters: ["planet_radius", "T", "H2O", "CH4", "CO2", "CO"]
+  
+  # Prior boundaries for each fitted parameter
+  priors:
+    planet_radius: [1.7, 1.9]          # R_jup
+    T: [2000, 2700]                    # K (WASP-121b is very hot!)
+    H2O: [1e-6, 1e-2]                  # Mixing ratio
+    CH4: [1e-7, 1e-4]                  # Mixing ratio
+    CO2: [1e-7, 1e-4]                  # Mixing ratio
+    CO: [1e-6, 1e-3]                   # Mixing ratio
+  
+  # Nestle optimizer settings
+  num_live_points: 50
+  
+  # Output files for retrieval results
+  output_retrieved_spectrum: "WASP-121b_retrieved_spectrum.txt"
+  output_fit_plot: "WASP-121b_retrieval_fit.png"
+  output_posterior_plot: "WASP-121b_posterior.png"  # For Task C/D
