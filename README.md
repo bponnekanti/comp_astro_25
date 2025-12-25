@@ -41,6 +41,9 @@ daneel -i <input_file> [options]
 - `-a, --atmosphere`: Atmospheric characterization from input transmission spectrum
 - `-d rf`: Run the Random Forest exoplanet detection algorithm
 - `-d cnn`: Run the CNN exoplanet detection algorithm
+- `-a model`: Run the forward model from input parameters
+- `-a retrieve`: Run atmospheric retrieval on a transmission spectrum 
+
 
 ### Examples
 
@@ -72,6 +75,10 @@ daneel -i parameters.yaml -d rf
 daneel -i parameters.yaml -d cnn
 
 ```
+```bash
+# Run atmospheric retrieval
+daneel -i wasp121b_atmosphere.yaml -a retrieve
+```
 
 ## Input File Format
 
@@ -102,7 +109,54 @@ For CNN, the YAML file should include a `detection` section with keys:
   batch_size:
   threshold:
   kernel_size:
- 
+
+For atmospheric analysis, the YAML file should include:
+
+atmosphere:
+  T_irr:
+  min_pressure:
+  max_pressure:
+  nlayers:
+  
+  output_spectrum: "-.txt"
+  output_tm_plot: "-.png"
+  output_params: "-.txt"
+  output_chemistry_plot: "-.png"
+
+  molecules: []
+  fill_gases: ["H2", "He"]
+  he_h2_ratio:
+
+  cia_pairs: ["H2-H2", "H2-He"]
+
+
+wavelength:
+  min:  
+  max:
+  n_points:
+
+
+retrieval:
+  observed_spectrum: "-.dat"
+
+  fit_parameters:
+  
+
+  priors:
+    planet_radius:
+    T:
+    H2O: 
+    CH4: 
+    CO2: 
+    CO: 
+  
+  
+  num_live_points:
+
+  output_retrieved_spectrum: 
+  output_fit_plot: 
+  output_posterior_plot:
+
 
 
 ## License
